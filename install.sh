@@ -32,11 +32,11 @@ fi
 
 # install ffmpeg
 echo "Downloading and installing ffmpeg"
-wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz
 mkdir -p tmp
-tar -xf ffmpeg-release-amd64-static.tar.xz --strip-components 1 -C tmp
+tar -xf ffmpeg-release-arm64-static.tar.xz --strip-components 1 -C tmp
 cp -v tmp/{ffmpeg,ffprobe,qt-faststart} /usr/local/bin
-rm -rf tmp ffmpeg-release-amd64-static.tar.xz
+rm -rf tmp ffmpeg-release-arm64-static.tar.xz
 echo "ffmpeg installed to /usr/local/bin"
 
 read -p "Enter portal URL, or press enter for localhost : " FRONTEND_HOST
@@ -136,9 +136,18 @@ fi
 # Bento4 utility installation, for HLS
 
 cd /home/mediacms.io/mediacms
-wget http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
-unzip Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
-mkdir /home/mediacms.io/mediacms/media_files/hls
+git clone https://github.com/axiomatic-systems/Bento4.git
+mkdir Bento4/cmakebuild
+cd Bento4/cmakebuild
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+
+
+# wget http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
+# unzip Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
+# mkdir /home/mediacms.io/mediacms/media_files/hls
+
+
 
 # last, set default owner
 chown -R www-data. /home/mediacms.io/
